@@ -94,7 +94,7 @@ class PressureSensor implements WeatherDataSource {
 
     private void updatePressure() {
         // read from humidity sensor
-        currentPressure = new Random().nextDouble() * 100;
+        currentPressure = (new Random().nextDouble() * 2) + 29;
     }
 
     @Override
@@ -109,13 +109,13 @@ class PressureSensor implements WeatherDataSource {
 
     @Override
     public void update() {
-        System.out.println("TemperatureSensor: getting new data.");
+        System.out.println("PressureSensor: getting new data.");
         updatePressure();
         for (WeatherDataListener listener : listeners) {
-            listener.updateData(new WeatherData("temperature", currentPressure) {
+            listener.updateData(new WeatherData("pressure", currentPressure) {
                 @Override
                 public String getUpdateMessage() {
-                    return "The new temperature is " + currentPressure;
+                    return "The new pressure is " + currentPressure;
                 }
             });
         }
@@ -210,6 +210,7 @@ public class Main {
         System.out.println("Main: simulating updates from sensors");
         temperatureSensor.update();
         humiditySensor.update();
+        pressureSensor.update();
         temperatureSensor.update();
         pressureSensor.update();
 
